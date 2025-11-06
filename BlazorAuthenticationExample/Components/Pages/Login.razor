@@ -1,0 +1,26 @@
+﻿@page "/login"
+@inject AuthenticationStateProvider AuthProvider
+@using System.Security.Claims
+
+@rendermode InteractiveServer
+
+<h3>Login Page</h3>
+
+<p><b>@loginText</b></p>
+<input @bind="userName" placeholder="Enter your name" />
+<button class="btn btn-primary" @onclick="LoginUser">Login</button>
+
+@code {
+    private string userName = "";
+    private string loginText = "";
+    private async Task LoginUser()
+    {
+
+        if (AuthProvider is CustomAuthenticationStateProvider customAuth)
+        {
+            customAuth.Login(userName);
+            loginText = $"User {userName} logged in.";
+            StateHasChanged();
+        }
+    }
+}
