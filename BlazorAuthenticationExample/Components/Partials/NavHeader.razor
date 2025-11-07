@@ -2,14 +2,19 @@
 @rendermode InteractiveServer
 
 <div style="color:#006bb7;padding:4px;margin-left:15px">
-@if(isAuthenticated){
-    @LoginName
-        <a href="/Logout">Logout</a>
-}
-else
-{
-    <a href="Login">Login</a>
-}
+<CascadingAuthenticationState>
+    <AuthorizeView>
+        <Authorized>
+                @LoginName
+                <a @onclick="Logout">Logout</a>
+        </Authorized>
+        <NotAuthorized>
+                <a href="Login">Login</a>
+        </NotAuthorized>
+    </AuthorizeView>
+
+
+    </CascadingAuthenticationState>
 </div>
 
 @code {
@@ -40,5 +45,16 @@ else
             isAuthenticated = false;
             LoginName = "Not Logged In";
         }
+    }
+
+    private void Logout()
+    {
+        CustomAuthenticationStateProvider customAuthProvider = (CustomAuthenticationStateProvider)AuthenticationStateProvider;
+        customAuthProvider.Logout();
+    }
+
+    private void Dispose()
+    {
+        AuthenticationStateProvider.AuthenticationStateChanged -= AuthStateChanged;
     }
 }
