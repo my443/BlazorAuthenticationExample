@@ -1,0 +1,44 @@
+﻿@inject AuthenticationStateProvider AuthenticationStateProvider
+@rendermode InteractiveServer
+
+<div style="color:#006bb7;padding:4px;margin-left:15px">
+@if(isAuthenticated){
+    @LoginName
+        <a href="/Logout">Logout</a>
+}
+else
+{
+    <a href="Login">Login</a>
+}
+</div>
+
+@code {
+    string LoginName = "";
+    bool isAuthenticated = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await UpdateAuthStateAsync();
+        AuthenticationStateProvider.AuthenticationStateChanged += AuthStateChanged;
+    }
+    private async void AuthStateChanged(Task<AuthenticationState> task)
+    {
+        await UpdateAuthStateAsync();
+        StateHasChanged();
+    }
+    private async Task UpdateAuthStateAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        if (user.Identity != null && user.Identity.IsAuthenticated)
+        {
+            isAuthenticated = true;
+            LoginName = $"Hello: {user.Identity.Name}";
+        }
+        else
+        {
+            isAuthenticated = false;
+            LoginName = "Not Logged In";
+        }
+    }
+}
