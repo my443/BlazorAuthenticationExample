@@ -1,0 +1,34 @@
+﻿@inject AuthenticationStateProvider AuthenticationStateProvider
+@rendermode InteractiveServer
+
+<div style="color:white;padding:4px;margin-left:15px">
+    @LoginState
+</div>
+
+@code {
+    string LoginState = "Not Logged In";
+    protected override async Task OnInitializedAsync()
+    {
+        await UpdateAuthStateAsync();
+        AuthenticationStateProvider.AuthenticationStateChanged += AuthStateChanged;
+    }
+    private async void AuthStateChanged(Task<AuthenticationState> task)
+    {
+        await UpdateAuthStateAsync();
+        StateHasChanged();
+    }
+    private async Task UpdateAuthStateAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        if (user.Identity != null && user.Identity.IsAuthenticated)
+        {
+            LoginState = $"Logged in as: {user.Identity.Name}";
+        }
+        else
+        {
+            LoginState = "Not Logged In";
+        }
+    }
+}
+

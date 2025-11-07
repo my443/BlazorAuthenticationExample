@@ -5,7 +5,8 @@
 @rendermode InteractiveServer
 
 <h3>Login Page</h3>
-
+<p>Authenticated: @AuthProvider.GetAuthenticationStateAsync().Result.User.Identity.IsAuthenticated</p>
+ 
 <p><b>@loginText</b></p>
 <input @bind="userName" placeholder="Enter your name" />
 <button class="btn btn-primary" @onclick="LoginUser">Login</button>
