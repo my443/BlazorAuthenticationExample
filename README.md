@@ -13,3 +13,20 @@ It includs:
 1. [ ] Getting user from a database and validating them there.
 2. [ ] Auto-update the login page. Subscribe to the authentication state changes method.
 3. [ ] 
+
+# What I Learned
+* If you are subscribing to an authentication state change, then you need to be in an component with `@rendermode InteractiveServer`
+* You can't put `@rendermode InteractiveServer` on the main page, or main layout page, so for these pages you need to add a component that has it.
+* When you use `builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();` you are replacing the default authentication 
+state provider with your own implementation. Every time you use `@inject AuthenticationStateProvider AuthStateProvider` you are getting an instance of your custom provider.
+* But if you want to use the extended methods of your custom provider, you need to use `(CustomAuthenticationStateProvider)AuthenticationStateProvider`. The
+reason is that you need to use the `AuthenticationStateProvider` or else the dependency injection won't work.(It just creates a new instance of 
+your custom provider instead of using the one in DI container).
+>> See example from `NaveHeader.razor`:
+    ```
+        private void Logout()
+    {
+        CustomAuthenticationStateProvider customAuthProvider = (CustomAuthenticationStateProvider)AuthenticationStateProvider;
+        customAuthProvider.Logout();
+    }
+    ```
