@@ -21,11 +21,11 @@ It includs:
 state provider with your own implementation. Every time you use `@inject AuthenticationStateProvider AuthStateProvider` you are getting an instance of your custom provider.
 * But if you want to use the extended methods of your custom provider, you need to use `(CustomAuthenticationStateProvider)AuthenticationStateProvider`. The
 reason is that you need to use the `AuthenticationStateProvider` or else the dependency injection won't work.(It just creates a new instance of 
-your custom provider instead of using the one in DI container).
->> See example from `NaveHeader.razor`:
+your custom provider instead of using the one in DI container).   
+    ### See example from `NavHeader.razor`:
 
     ```
-        private void Logout()
+    private void Logout()
     {
         CustomAuthenticationStateProvider customAuthProvider = (CustomAuthenticationStateProvider)AuthenticationStateProvider;
         customAuthProvider.Logout();

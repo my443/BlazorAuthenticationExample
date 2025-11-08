@@ -1,0 +1,44 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@using BlazorAuthenticationExample.Components.Partials
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+@rendermode InteractiveServer
+<div >
+    <CascadingAuthenticationState>
+        <!-- Always Visible -->
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All" style="color:white;">
+                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true" ></span> Home
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="counter" style="color:white;">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
+            </NavLink>
+        </div>
+        <!-- Sometimes visible.
+            Could Require multiple AuthorizeView components.
+            You can only have one <NotAuthorized> and </Authorized> per AuthorizeView.
+            But you can put multiple AuthorizeView components in an CascadingAuthenticationState.
+        -->
+        <AuthorizeView>
+            <Authorized>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="weather" style="color:white;">
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
+                    </NavLink>
+                </div>
+            </Authorized>
+            <NotAuthorized>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="login" style="color:white;">
+                        <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Login
+                    </NavLink>
+                </div>
+            </NotAuthorized>
+        </AuthorizeView>
+    </CascadingAuthenticationState>
+</div>
+@code {
+
+}
