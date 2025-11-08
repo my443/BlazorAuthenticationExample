@@ -23,6 +23,7 @@ state provider with your own implementation. Every time you use `@inject Authent
 reason is that you need to use the `AuthenticationStateProvider` or else the dependency injection won't work.(It just creates a new instance of 
 your custom provider instead of using the one in DI container).
 >> See example from `NaveHeader.razor`:
+
     ```
         private void Logout()
     {
